@@ -34,6 +34,6 @@ public class JwtUtil {
         .getBody();
 
     return new JwtClaim()
-        .setUserId(bodyMap.get("userId", Integer.class));
+        .setUserId(bodyMap.get("userId", Long.class));
   }
 }
