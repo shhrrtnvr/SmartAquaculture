@@ -46,7 +46,7 @@ public class AuthService {
     }
 
     var claim = new JwtClaim()
-        .setUserId(user.getUserId())
+        .setUserId(user.getId())
         .setUsername(user.getUsername())
         .setRole(user.getRole());
 

@@ -13,9 +13,10 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class User {
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_gen")
+  @SequenceGenerator(name = "users_gen", sequenceName = "users_seq", allocationSize = 1)
   @Column(name = "id", nullable = false)
-  private Long userId;
+  private Long id;
   private String username;
   private String password;
   private String firstName;
