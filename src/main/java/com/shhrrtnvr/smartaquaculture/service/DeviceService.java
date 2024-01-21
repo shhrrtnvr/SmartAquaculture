@@ -35,4 +35,9 @@ public class DeviceService {
     return true;
   }
 
+  public DeviceData getCurrentData(Long deviceId) {
+    return deviceDataRepository.findFirstByDeviceIdOrderByTimestampDesc(deviceId).orElseThrow(
+        () -> new RuntimeException("Device data not found")
+    );
+  }
 }

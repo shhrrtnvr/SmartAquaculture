@@ -4,6 +4,7 @@ import com.shhrrtnvr.smartaquaculture.constants.ControllerRoute;
 import com.shhrrtnvr.smartaquaculture.constants.DeviceRoutes;
 import com.shhrrtnvr.smartaquaculture.factory.mapper.DeviceMapper;
 import com.shhrrtnvr.smartaquaculture.io.DeviceInfo;
+import com.shhrrtnvr.smartaquaculture.model.DeviceData;
 import com.shhrrtnvr.smartaquaculture.service.DeviceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -33,4 +34,13 @@ public class DeviceController {
     var response = DeviceMapper.toDeviceInfo(device);
     return ResponseEntity.ok(response);
   }
+
+  @GetMapping(DeviceRoutes.GET_CURRENT_DATA)
+  public ResponseEntity<DeviceData> getCurrentData(
+      @PathVariable Long deviceId
+  ){
+    var deviceData = deviceService.getCurrentData(deviceId);
+    return ResponseEntity.ok(deviceData);
+  }
+
 }
