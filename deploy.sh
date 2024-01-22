@@ -23,12 +23,6 @@ deploy_application() {
     echo "Deployment completed."
 }
 
-# Check if the push is to the master branch
-if [[ $REF = "refs/heads/$BRANCH" ]]; then
-    echo "Changes pushed to $BRANCH branch. Initiating deployment..."
 
-    # Call the deploy function
-    deploy_application
-else
-    echo "No changes pushed to $BRANCH branch. No deployment needed."
-fi
+deploy_application
+
