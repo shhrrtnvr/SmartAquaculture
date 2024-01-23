@@ -25,7 +25,7 @@ public class WeatherService {
     var n = 3;
     while (n-- > 0) {
       try {
-        var response = getDummyData(latitude, longitude, epochTime, apiKey);
+        var response = callApi(latitude, longitude, epochTime, apiKey);
         if (response != null) {
           return response;
         }
