@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -23,4 +25,6 @@ public class User {
   private String lastName;
   @Enumerated(EnumType.STRING)
   private Role role;
+  @OneToMany(mappedBy = "user")
+  List<Device> devices;
 }

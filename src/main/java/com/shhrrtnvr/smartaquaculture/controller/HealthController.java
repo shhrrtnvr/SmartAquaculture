@@ -15,7 +15,7 @@ public class HealthController {
   }
 
   @GetMapping(HealthRoute.WHOAMI)
-  public ResponseEntity<Long> whoami(@RequestingUser JwtClaim jwtClaim) {
-    return ResponseEntity.ok(jwtClaim.getUserId());
+  public ResponseEntity<JwtClaim> whoami(@RequestingUser JwtClaim jwtClaim) {
+    return ResponseEntity.ok(jwtClaim);
   }
 }
