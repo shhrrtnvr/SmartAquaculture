@@ -6,6 +6,7 @@ import com.shhrrtnvr.smartaquaculture.bo.JwtClaim;
 import com.shhrrtnvr.smartaquaculture.constants.ControllerRoute;
 import com.shhrrtnvr.smartaquaculture.constants.DeviceRoutes;
 import com.shhrrtnvr.smartaquaculture.factory.mapper.DeviceMapper;
+import com.shhrrtnvr.smartaquaculture.io.DeviceDataResponse;
 import com.shhrrtnvr.smartaquaculture.io.DeviceInfo;
 import com.shhrrtnvr.smartaquaculture.io.Timeframe;
 import com.shhrrtnvr.smartaquaculture.model.DeviceData;
@@ -43,20 +44,24 @@ public class DeviceController {
   }
 
   @GetMapping(DeviceRoutes.GET_CURRENT_DATA)
-  public ResponseEntity<DeviceData> getCurrentData(
+  public ResponseEntity<DeviceDataResponse> getCurrentData(
       @PathVariable Long deviceId
   ){
     var deviceData = deviceService.getCurrentData(deviceId);
-    return ResponseEntity.ok(deviceData);
+    var response = DeviceMapper.toDeviceDataResponse(deviceData);
+    return ResponseEntity.ok(response);
   }
 
   @GetMapping(DeviceRoutes.GET_RANGE_DATA)
-  public ResponseEntity<List<DeviceData>> getRangeData(
+  public ResponseEntity<List<DeviceDataResponse>> getRangeData(
       @PathVariable Long deviceId,
       @PathVariable Timeframe timeframe
   ){
     var deviceData = deviceService.getRangeData(deviceId, timeframe);
-    return ResponseEntity.ok(deviceData);
+    var response = deviceData.stream()
+            .map(DeviceMapper::toDeviceDataResponse)
+            .toList();
+    return ResponseEntity.ok(response);
   }
 
 }
