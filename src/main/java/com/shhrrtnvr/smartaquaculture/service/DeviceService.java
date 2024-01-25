@@ -39,6 +39,10 @@ public class DeviceService {
     );
   }
 
+  public List<Device> getAllDevices(Long userId) {
+    return deviceRepository.findAllByUserId(userId);
+  }
+
   public void addDeviceData(DeviceData deviceData) {
     deviceDataRepository.save(deviceData);
   }

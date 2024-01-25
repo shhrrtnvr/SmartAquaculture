@@ -42,6 +42,17 @@ public class DeviceController {
     return ResponseEntity.ok(response);
   }
 
+  @GetMapping(DeviceRoutes.GET_ALL_DEVICES)
+  public ResponseEntity<List<DeviceInfo>> getAllDevices(
+      @RequestingUser JwtClaim claim
+  ){
+    var devices = deviceService.getAllDevices(claim.getUserId());
+    var response = devices.stream()
+            .map(DeviceMapper::toDeviceInfo)
+            .toList();
+    return ResponseEntity.ok(response);
+  }
+
   @GetMapping(DeviceRoutes.GET_CURRENT_DATA)
   public ResponseEntity<DeviceDataResponse> getCurrentData(
       @PathVariable Long deviceId
