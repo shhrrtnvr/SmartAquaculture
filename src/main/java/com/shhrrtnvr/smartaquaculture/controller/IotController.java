@@ -17,12 +17,16 @@ import org.springframework.web.bind.annotation.*;
 public class IotController {
   private final RabbitTemplate rabbitTemplate;
 
-  @PostMapping(IotRoute.POST_DATA)
+  @GetMapping(IotRoute.POST_DATA)
   public ResponseEntity<Boolean> postData(
       @PathVariable Long deviceId,
-      @RequestBody DeviceMessage message
+      @PathVariable Double ph,
+      @PathVariable Double temperature
   ) {
-    message.setDeviceId(deviceId);
+    var message = new DeviceMessage()
+        .setDeviceId(deviceId)
+        .setPh(ph)
+        .setTemperature(temperature);
     rabbitTemplate.convertAndSend("amq.topic", RoutingKeys.DEVICE_DATA, message);
     return ResponseEntity.ok(true);
   }
