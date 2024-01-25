@@ -2,6 +2,7 @@ package com.shhrrtnvr.smartaquaculture.config;
 
 import com.shhrrtnvr.smartaquaculture.auth.SecretKeyFilter;
 import com.shhrrtnvr.smartaquaculture.auth.TokenAuthFilter;
+import com.shhrrtnvr.smartaquaculture.constants.AuthRoute;
 import com.shhrrtnvr.smartaquaculture.constants.ControllerRoute;
 import com.shhrrtnvr.smartaquaculture.constants.HealthRoute;
 import lombok.AllArgsConstructor;
@@ -35,7 +36,7 @@ public class SecurityConfig {
     return (web) -> web.ignoring()
         .requestMatchers(
             request -> request.getServletPath().startsWith(HealthRoute.HEALTH),
-            request -> request.getServletPath().startsWith(ControllerRoute.AUTH_ROUTE)
+            request -> request.getServletPath().startsWith(ControllerRoute.AUTH_ROUTE + AuthRoute.LOGIN)
         );
   }
 

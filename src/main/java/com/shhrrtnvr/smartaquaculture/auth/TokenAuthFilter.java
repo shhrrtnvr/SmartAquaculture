@@ -1,6 +1,5 @@
 package com.shhrrtnvr.smartaquaculture.auth;
 
-import com.shhrrtnvr.smartaquaculture.constants.ControllerRoute;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -30,21 +29,12 @@ public class TokenAuthFilter extends OncePerRequestFilter {
     if (authHeader != null && authHeader.startsWith(TOKEN_PREFIX)) {
       authHeader = authHeader.replace(TOKEN_PREFIX, "");
       var claim = jwtUtil.parseToken(authHeader);
-      if (claim != null) {
+      if (claim != null)
         setAuthentication(request, claim);
-      } else {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-        return;
-      }
     }
     filterChain.doFilter(request, response);
   }
 
-  @Override
-  protected boolean shouldNotFilter(HttpServletRequest request) {
-    var path = request.getRequestURI();
-    return path.startsWith(ControllerRoute.AUTH_ROUTE);
-  }
 
   protected void setAuthentication(HttpServletRequest request, Object claim) {
     var authentication = new UsernamePasswordAuthenticationToken(

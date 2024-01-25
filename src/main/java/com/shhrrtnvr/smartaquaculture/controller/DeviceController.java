@@ -1,6 +1,5 @@
 package com.shhrrtnvr.smartaquaculture.controller;
 
-import com.shhrrtnvr.smartaquaculture.auth.JwtUtil;
 import com.shhrrtnvr.smartaquaculture.auth.RequestingUser;
 import com.shhrrtnvr.smartaquaculture.bo.JwtClaim;
 import com.shhrrtnvr.smartaquaculture.constants.ControllerRoute;
@@ -9,7 +8,6 @@ import com.shhrrtnvr.smartaquaculture.factory.mapper.DeviceMapper;
 import com.shhrrtnvr.smartaquaculture.io.DeviceDataResponse;
 import com.shhrrtnvr.smartaquaculture.io.DeviceInfo;
 import com.shhrrtnvr.smartaquaculture.io.Timeframe;
-import com.shhrrtnvr.smartaquaculture.model.DeviceData;
 import com.shhrrtnvr.smartaquaculture.service.DeviceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

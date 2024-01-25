@@ -1,6 +1,5 @@
 package com.shhrrtnvr.smartaquaculture.auth;
 
-import com.shhrrtnvr.smartaquaculture.constants.ControllerRoute;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -19,7 +18,7 @@ import java.util.Collections;
 @Component
 @RequiredArgsConstructor
 public class SecretKeyFilter extends OncePerRequestFilter {
-  private static final String SECURITY_HEADER = "secret-key";
+  private static final String SECURITY_HEADER = "X-Auth-Secret-Key";
 
   @Value("${auth.secret.key}")
   private String secretKey;
@@ -31,17 +30,10 @@ public class SecretKeyFilter extends OncePerRequestFilter {
       authentication.setDetails(new WebAuthenticationDetailsSource()
           .buildDetails(request));
       SecurityContextHolder.getContext().setAuthentication(authentication);
-    } else {
-      response.sendError(HttpServletResponse.SC_FORBIDDEN);
     }
     filterChain.doFilter(request, response);
   }
 
-  @Override
-  protected boolean shouldNotFilter(HttpServletRequest request) {
-    var path = request.getRequestURI();
-    return !path.startsWith(ControllerRoute.ADMIN_ROUTE);
-  }
 
   private boolean isKeyMatched(HttpServletRequest request) {
     var securityHeader = request.getHeader(SECURITY_HEADER);
