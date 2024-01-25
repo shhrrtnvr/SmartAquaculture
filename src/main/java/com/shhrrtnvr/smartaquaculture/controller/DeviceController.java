@@ -18,7 +18,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(ControllerRoute.DEVICE)
+@RequestMapping(ControllerRoute.DEVICE_ROUTE)
 @RequiredArgsConstructor
 public class DeviceController {
   private final DeviceService deviceService;

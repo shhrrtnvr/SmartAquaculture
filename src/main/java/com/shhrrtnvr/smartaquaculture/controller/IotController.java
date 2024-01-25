@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping(ControllerRoute.Iot)
+@RequestMapping(ControllerRoute.IOT_ROUTE)
 @RequiredArgsConstructor
 public class IotController {
   private final RabbitTemplate rabbitTemplate;

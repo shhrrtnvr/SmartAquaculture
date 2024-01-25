@@ -36,7 +36,8 @@ public class SecurityConfig {
     return (web) -> web.ignoring()
         .requestMatchers(
             request -> request.getServletPath().startsWith(HealthRoute.HEALTH),
-            request -> request.getServletPath().startsWith(ControllerRoute.AUTH_ROUTE + AuthRoute.LOGIN)
+            request -> request.getServletPath().startsWith(ControllerRoute.AUTH_ROUTE + AuthRoute.LOGIN),
+            request -> request.getServletPath().startsWith(ControllerRoute.IOT_ROUTE)
         );
   }
 
