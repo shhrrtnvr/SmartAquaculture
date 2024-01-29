@@ -3,7 +3,8 @@ package com.shhrrtnvr.smartaquaculture.service;
 import com.shhrrtnvr.smartaquaculture.auth.JwtUtil;
 import com.shhrrtnvr.smartaquaculture.bo.JwtClaim;
 import com.shhrrtnvr.smartaquaculture.io.LoginRequest;
-import com.shhrrtnvr.smartaquaculture.io.UserInfo;
+import com.shhrrtnvr.smartaquaculture.io.SignUpRequest;
+import com.shhrrtnvr.smartaquaculture.io.UserInfoUpdateRequest;
 import com.shhrrtnvr.smartaquaculture.model.User;
 import com.shhrrtnvr.smartaquaculture.repository.UserRepository;
 import jakarta.persistence.PersistenceException;
@@ -19,7 +20,7 @@ public class AuthService {
   private final Argon2PasswordEncoder passwordEncoder;
   private final UserRepository userRepository;
 
-  public boolean addUser(UserInfo request) throws PersistenceException {
+  public boolean addUser(SignUpRequest request) throws PersistenceException {
     var user = userRepository.findByUsername(request.getUsername());
     user.ifPresent(u -> {
       throw new PersistenceException("User already exists");
@@ -52,26 +53,26 @@ public class AuthService {
     return jwtUtil.generateToken(claim);
   }
 
-  public Boolean userUpdate(Long userId, UserInfo info) throws AuthException {
-    var user = userRepository.findById(userId).orElseThrow(
+  public Boolean userUpdate(UserInfoUpdateRequest request) throws AuthException {
+    var user = userRepository.findById(request.getId()).orElseThrow(
         () -> new AuthException("User not found")
     );
-    if (user.getRole() != info.getRole()) {
-      throw new AuthException("User role is incorrect");
-    }
 
-    if (info.getUsername() != null) {
-      user.setUsername(info.getUsername());
+    if (request.getUsername() != null) {
+      user.setUsername(request.getUsername());
     }
-    if (info.getFirstName() != null) {
-      user.setFirstName(info.getFirstName());
+    if (request.getFirstName() != null) {
+      user.setFirstName(request.getFirstName());
     }
-    if (info.getLastName() != null) {
-      user.setLastName(info.getLastName());
+    if (request.getLastName() != null) {
+      user.setLastName(request.getLastName());
     }
-    if (info.getPassword() != null) {
-      var hashedPassword = passwordEncoder.encode(info.getPassword());
+    if (request.getPassword() != null) {
+      var hashedPassword = passwordEncoder.encode(request.getPassword());
       user.setPassword(hashedPassword);
+    }
+    if (request.getRole() != null) {
+      user.setRole(request.getRole());
     }
     userRepository.save(user);
     return true;

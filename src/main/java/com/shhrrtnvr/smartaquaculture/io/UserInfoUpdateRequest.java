@@ -6,7 +6,8 @@ import lombok.experimental.Accessors;
 
 @Data
 @Accessors(chain = true)
-public class UserInfo {
+public class UserInfoUpdateRequest {
+  private Long id;
   private String username;
   private String password;
   private String firstName;
