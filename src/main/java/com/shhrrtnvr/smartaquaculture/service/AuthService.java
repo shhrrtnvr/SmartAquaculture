@@ -2,9 +2,8 @@ package com.shhrrtnvr.smartaquaculture.service;
 
 import com.shhrrtnvr.smartaquaculture.auth.JwtUtil;
 import com.shhrrtnvr.smartaquaculture.bo.JwtClaim;
-import com.shhrrtnvr.smartaquaculture.bo.Role;
 import com.shhrrtnvr.smartaquaculture.io.LoginRequest;
-import com.shhrrtnvr.smartaquaculture.io.SignUpRequest;
+import com.shhrrtnvr.smartaquaculture.io.UserInfo;
 import com.shhrrtnvr.smartaquaculture.model.User;
 import com.shhrrtnvr.smartaquaculture.repository.UserRepository;
 import jakarta.persistence.PersistenceException;
@@ -20,7 +19,7 @@ public class AuthService {
   private final Argon2PasswordEncoder passwordEncoder;
   private final UserRepository userRepository;
 
-  public boolean addUser(SignUpRequest request) throws PersistenceException {
+  public boolean addUser(UserInfo request) throws PersistenceException {
     var user = userRepository.findByUsername(request.getUsername());
     user.ifPresent(u -> {
       throw new PersistenceException("User already exists");
@@ -53,12 +52,27 @@ public class AuthService {
     return jwtUtil.generateToken(claim);
   }
 
-  public Boolean resetPassword(Long userId, LoginRequest request) throws AuthException {
+  public Boolean resetPassword(Long userId, UserInfo request) throws AuthException {
     var user = userRepository.findById(userId).orElseThrow(
         () -> new AuthException("User not found")
     );
-    var hashedPassword = passwordEncoder.encode(request.getPassword());
-    user.setPassword(hashedPassword);
+    if (user.getRole() != request.getRole()) {
+      throw new AuthException("User role is incorrect");
+    }
+
+    if (request.getUsername() != null) {
+      user.setUsername(request.getUsername());
+    }
+    if (request.getFirstName() != null) {
+      user.setFirstName(request.getFirstName());
+    }
+    if (request.getLastName() != null) {
+      user.setLastName(request.getLastName());
+    }
+    if (request.getPassword() != null) {
+      var hashedPassword = passwordEncoder.encode(request.getPassword());
+      user.setPassword(hashedPassword);
+    }
     userRepository.save(user);
     return true;
   }

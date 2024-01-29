@@ -6,7 +6,7 @@ import com.shhrrtnvr.smartaquaculture.constants.AuthRoute;
 import com.shhrrtnvr.smartaquaculture.constants.ControllerRoute;
 import com.shhrrtnvr.smartaquaculture.io.LoginRequest;
 import com.shhrrtnvr.smartaquaculture.io.LoginResponse;
-import com.shhrrtnvr.smartaquaculture.io.SignUpRequest;
+import com.shhrrtnvr.smartaquaculture.io.UserInfo;
 import com.shhrrtnvr.smartaquaculture.service.AuthService;
 import jakarta.security.auth.message.AuthException;
 import lombok.RequiredArgsConstructor;
@@ -22,7 +22,7 @@ public class AuthController {
 
   @PostMapping(AuthRoute.SIGN_UP)
   public ResponseEntity<Boolean> signUp(
-      @RequestBody SignUpRequest request
+      @RequestBody UserInfo request
   ) {
     request.setRole(Role.USER);
     var result = authService.addUser(request);
@@ -39,9 +39,9 @@ public class AuthController {
     return ResponseEntity.ok(response);
   }
 
-  @PutMapping(AuthRoute.RESET_PASSWORD)
-  public ResponseEntity<Boolean> resetPassword(
-      @RequestBody LoginRequest request,
+  @PutMapping(AuthRoute.UPDATE_INFO)
+  public ResponseEntity<Boolean> updateInfo(
+      @RequestBody UserInfo request,
       @RequestingUser Long userId
   ) throws AuthException {
     var result = authService.resetPassword(userId, request);
