@@ -52,25 +52,25 @@ public class AuthService {
     return jwtUtil.generateToken(claim);
   }
 
-  public Boolean resetPassword(Long userId, UserInfo request) throws AuthException {
+  public Boolean userUpdate(Long userId, UserInfo info) throws AuthException {
     var user = userRepository.findById(userId).orElseThrow(
         () -> new AuthException("User not found")
     );
-    if (user.getRole() != request.getRole()) {
+    if (user.getRole() != info.getRole()) {
       throw new AuthException("User role is incorrect");
     }
 
-    if (request.getUsername() != null) {
-      user.setUsername(request.getUsername());
+    if (info.getUsername() != null) {
+      user.setUsername(info.getUsername());
     }
-    if (request.getFirstName() != null) {
-      user.setFirstName(request.getFirstName());
+    if (info.getFirstName() != null) {
+      user.setFirstName(info.getFirstName());
     }
-    if (request.getLastName() != null) {
-      user.setLastName(request.getLastName());
+    if (info.getLastName() != null) {
+      user.setLastName(info.getLastName());
     }
-    if (request.getPassword() != null) {
-      var hashedPassword = passwordEncoder.encode(request.getPassword());
+    if (info.getPassword() != null) {
+      var hashedPassword = passwordEncoder.encode(info.getPassword());
       user.setPassword(hashedPassword);
     }
     userRepository.save(user);

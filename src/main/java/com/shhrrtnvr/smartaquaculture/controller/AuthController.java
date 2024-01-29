@@ -41,10 +41,10 @@ public class AuthController {
 
   @PutMapping(AuthRoute.UPDATE_INFO)
   public ResponseEntity<Boolean> updateInfo(
-      @RequestBody UserInfo request,
+      @RequestBody UserInfo info,
       @RequestingUser Long userId
   ) throws AuthException {
-    var result = authService.resetPassword(userId, request);
+    var result = authService.userUpdate(userId, info);
     return ResponseEntity.ok(result);
   }
 }
