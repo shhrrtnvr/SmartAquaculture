@@ -52,4 +52,14 @@ public class AuthService {
 
     return jwtUtil.generateToken(claim);
   }
+
+  public Boolean resetPassword(Long userId, LoginRequest request) throws AuthException {
+    var user = userRepository.findById(userId).orElseThrow(
+        () -> new AuthException("User not found")
+    );
+    var hashedPassword = passwordEncoder.encode(request.getPassword());
+    user.setPassword(hashedPassword);
+    userRepository.save(user);
+    return true;
+  }
 }

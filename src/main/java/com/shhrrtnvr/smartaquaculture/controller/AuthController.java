@@ -1,5 +1,6 @@
 package com.shhrrtnvr.smartaquaculture.controller;
 
+import com.shhrrtnvr.smartaquaculture.auth.RequestingUser;
 import com.shhrrtnvr.smartaquaculture.bo.Role;
 import com.shhrrtnvr.smartaquaculture.constants.AuthRoute;
 import com.shhrrtnvr.smartaquaculture.constants.ControllerRoute;
@@ -36,5 +37,14 @@ public class AuthController {
     var response = new LoginResponse()
         .setAccessToken(token);
     return ResponseEntity.ok(response);
+  }
+
+  @PutMapping(AuthRoute.RESET_PASSWORD)
+  public ResponseEntity<Boolean> resetPassword(
+      @RequestBody LoginRequest request,
+      @RequestingUser Long userId
+  ) throws AuthException {
+    var result = authService.resetPassword(userId, request);
+    return ResponseEntity.ok(result);
   }
 }
