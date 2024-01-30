@@ -2,6 +2,7 @@ package com.shhrrtnvr.smartaquaculture.service;
 
 import com.shhrrtnvr.smartaquaculture.auth.JwtUtil;
 import com.shhrrtnvr.smartaquaculture.bo.JwtClaim;
+import com.shhrrtnvr.smartaquaculture.bo.Role;
 import com.shhrrtnvr.smartaquaculture.io.LoginRequest;
 import com.shhrrtnvr.smartaquaculture.io.SignUpRequest;
 import com.shhrrtnvr.smartaquaculture.io.UserInfoUpdateRequest;
@@ -32,7 +33,7 @@ public class AuthService {
         .setFirstName(request.getFirstName())
         .setLastName(request.getLastName())
         .setPassword(hashedPassword)
-        .setRole(request.getRole());
+        .setRole(request.getRole() == null ? Role.USER : request.getRole());
 
     userRepository.save(newUser);
     return true;
