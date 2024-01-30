@@ -72,7 +72,7 @@ public class UserController {
     return ResponseEntity.ok(result);
   }
 
-  @DeleteMapping(UserRoute.DELETE)
+  @PostMapping(UserRoute.DELETE)
   public ResponseEntity<Boolean> delete(
       @PathVariable Long id,
       @RequestingUser JwtClaim claim

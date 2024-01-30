@@ -99,7 +99,7 @@ public class DeviceController {
     return ResponseEntity.ok(response);
   }
 
-  @DeleteMapping(DeviceRoutes.DELETE_DEVICE)
+  @PostMapping(DeviceRoutes.DELETE_DEVICE)
   public ResponseEntity<Boolean> deleteDevice(
       @PathVariable Long deviceId,
       @RequestingUser JwtClaim claim
