@@ -40,6 +40,8 @@ public class AuthController {
     if (claim.getRole() == Role.USER) {
       if (info.getRole() != null) {
         throw new AuthException("User cant change role");
+      } else {
+        info.setId(claim.getUserId());
       }
     }
     var result = authService.userUpdate(info);
