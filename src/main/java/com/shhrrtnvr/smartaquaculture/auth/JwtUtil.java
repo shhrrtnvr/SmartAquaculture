@@ -1,6 +1,7 @@
 package com.shhrrtnvr.smartaquaculture.auth;
 
 import com.shhrrtnvr.smartaquaculture.bo.JwtClaim;
+import com.shhrrtnvr.smartaquaculture.bo.Role;
 import com.shhrrtnvr.smartaquaculture.config.JwtConfig;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
@@ -23,6 +24,9 @@ public class JwtUtil {
         .plusMillis(jwtConfig.getExpiration() * 3600L * 1000L);
     return Jwts.builder()
         .claim("userId", jwtClaim.getUserId())
+        .claim("role", jwtClaim.getRole())
+        .claim("username", jwtClaim.getUsername())
+        .setIssuedAt(Date.from(Instant.now()))
         .signWith(secretKey, SignatureAlgorithm.HS256)
         .setExpiration(Date.from(expiration))
         .compact();
@@ -34,6 +38,8 @@ public class JwtUtil {
         .getBody();
 
     return new JwtClaim()
-        .setUserId(bodyMap.get("userId", Long.class));
+        .setUserId(bodyMap.get("userId", Long.class))
+        .setRole(Role.valueOf(bodyMap.get("role", String.class)))
+        .setUsername(bodyMap.get("username", String.class));
   }
 }
