@@ -56,4 +56,33 @@ public class DeviceService {
   public List<DeviceData> getRangeData(Long deviceId, Timeframe timeframe) {
     return deviceDataRepository.findAllByDeviceIdAndTimestampBetween(deviceId, timeframe.getStartDate(), timeframe.getEndDate());
   }
+
+  public Device updateDevice(DeviceInfo deviceInfo) {
+    var device = deviceRepository.findById(deviceInfo.getId()).orElseThrow(
+        () -> new RuntimeException("Device not found")
+    );
+    if (deviceInfo.getLocationName() != null) {
+      device.setLocationName(deviceInfo.getLocationName());
+    }
+    if (deviceInfo.getLocationAddress() != null) {
+      device.setLocationAddress(deviceInfo.getLocationAddress());
+    }
+    if (deviceInfo.getLatitude() != null) {
+      device.setLatitude(deviceInfo.getLatitude());
+    }
+    if (deviceInfo.getLongitude() != null) {
+      device.setLongitude(deviceInfo.getLongitude());
+    }
+
+    device = deviceRepository.save(device);
+    return device;
+  }
+
+  public boolean deleteDevice(Long deviceId) {
+    var device = deviceRepository.findById(deviceId).orElseThrow(
+        () -> new RuntimeException("Device not found")
+    );
+    deviceRepository.delete(device);
+    return true;
+  }
 }
