@@ -18,4 +18,13 @@ public class UserMapper {
                     .toList()
             );
   }
+
+  public static UserResponse toUserResponseWithoutDevices(User user) {
+    return new UserResponse()
+            .setId(user.getId())
+            .setUsername(user.getUsername())
+            .setFirstName(user.getFirstName())
+            .setLastName(user.getLastName())
+            .setRole(user.getRole().toString());
+  }
 }
