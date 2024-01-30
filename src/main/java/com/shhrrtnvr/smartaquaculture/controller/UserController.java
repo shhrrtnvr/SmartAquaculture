@@ -6,9 +6,11 @@ import com.shhrrtnvr.smartaquaculture.bo.Role;
 import com.shhrrtnvr.smartaquaculture.constants.UserRoute;
 import com.shhrrtnvr.smartaquaculture.constants.ControllerRoute;
 import com.shhrrtnvr.smartaquaculture.factory.mapper.UserMapper;
+import com.shhrrtnvr.smartaquaculture.io.SignUpRequest;
 import com.shhrrtnvr.smartaquaculture.io.UserResponse;
 import com.shhrrtnvr.smartaquaculture.model.User;
 import com.shhrrtnvr.smartaquaculture.repository.UserRepository;
+import com.shhrrtnvr.smartaquaculture.service.AuthService;
 import jakarta.security.auth.message.AuthException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
   private final UserRepository userRepository;
+  private final AuthService authService;
 
   @GetMapping(UserRoute.LIST)
   public ResponseEntity<List<UserResponse>> list(@RequestingUser JwtClaim claim) {
@@ -57,4 +60,27 @@ public class UserController {
         UserMapper.toUserResponse(user.orElse(new User()))
     );
   }
+
+  @PostMapping(UserRoute.ADD)
+  public ResponseEntity<Boolean> add(
+      @RequestBody SignUpRequest request,
+      @RequestingUser JwtClaim claim
+  ) throws AuthException {
+    if (claim.getRole() != Role.ADMIN) throw new AuthException("Not Allowed");
+
+    var result = authService.addUser(request);
+    return ResponseEntity.ok(result);
+  }
+
+  @DeleteMapping(UserRoute.DELETE)
+  public ResponseEntity<Boolean> delete(
+      @PathVariable Long id,
+      @RequestingUser JwtClaim claim
+  ) throws AuthException {
+    if (claim.getRole() != Role.ADMIN) throw new AuthException("Not Allowed");
+
+    userRepository.deleteById(id);
+    return ResponseEntity.ok(true);
+  }
+
 }
