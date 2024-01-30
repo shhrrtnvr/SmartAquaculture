@@ -5,4 +5,5 @@ public interface AuthRoute {
     String REFRESH = "/refresh";
     String LOGOUT = "/logout";
     String UPDATE_INFO = "/info";
+    String SIGN_UP = "/sign-up";
 }

@@ -22,6 +22,14 @@ import org.springframework.web.bind.annotation.*;
 public class AuthController {
   private final AuthService authService;
 
+  @PostMapping(AuthRoute.SIGN_UP)
+  public ResponseEntity<Boolean> signUp(
+      @RequestBody SignUpRequest request
+  ) {
+    var result = authService.addUser(request);
+    return ResponseEntity.ok(result);
+  }
+
   @PostMapping(AuthRoute.LOGIN)
   public ResponseEntity<LoginResponse> login(
       @RequestBody LoginRequest request
