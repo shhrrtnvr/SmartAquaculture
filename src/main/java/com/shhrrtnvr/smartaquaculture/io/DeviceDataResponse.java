@@ -1,5 +1,6 @@
 package com.shhrrtnvr.smartaquaculture.io;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.Accessors;
@@ -18,5 +19,7 @@ public class DeviceDataResponse {
     private Double solarRadiation;
     private Double solarEnergy;
     private Double uvIndex;
+
+    @JsonSerialize(using = CustomDoubleSerializer.class)
     private Double dissolvedOxygen;
 }
