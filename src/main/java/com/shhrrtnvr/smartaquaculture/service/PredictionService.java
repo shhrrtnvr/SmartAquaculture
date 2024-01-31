@@ -43,8 +43,7 @@ public class PredictionService {
 
       ProcessBuilder processBuilder = new ProcessBuilder("python3", pythonScriptPath,
           String.valueOf(ph), String.valueOf(watertemp_oc), String.valueOf(airtemp_oc),
-          String.valueOf(solarradiation), String.valueOf(solarenergy),
-          String.valueOf(uvindex), String.valueOf(humid_rh));
+          String.valueOf(solarradiation), String.valueOf(humid_rh));
 
       Process process = processBuilder.start();
 

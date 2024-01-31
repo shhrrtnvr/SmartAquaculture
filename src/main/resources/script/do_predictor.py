@@ -2,7 +2,7 @@ import os
 import pickle
 import sys
 
-def predict_do(ph, watertemp_oc, airtemp_oc, solarradiation, solarenergy, uvindex, humid_rh):
+def predict_do(ph, watertemp_oc, airtemp_oc, solarradiation, humid_rh):
     # Function implementation here
     pass
 
@@ -17,9 +17,9 @@ with open(model_path, 'rb') as file:
     model = pickle.load(file)
 
 # Extract parameters from command-line arguments
-ph, watertemp_oc, airtemp_oc, solarradiation, solarenergy, uvindex, humid_rh = map(float, sys.argv[1:])
-features = [[ph, watertemp_oc, airtemp_oc, solarradiation, solarenergy, uvindex, humid_rh]]
+ph, watertemp_oc, airtemp_oc, solarradiation, humid_rh = map(float, sys.argv[1:])
+features = [[ph, watertemp_oc, airtemp_oc, solarradiation, humid_rh]]
 
 # Example usage
 result = model.predict(features)
-print(result[0])
+print((result[0] + 0.72399126) / 0.17078801)
