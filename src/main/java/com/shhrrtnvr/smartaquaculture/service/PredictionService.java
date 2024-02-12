@@ -59,7 +59,7 @@ public class PredictionService {
       if (exitCode == 0) {
         var d = Double.parseDouble(result.toString().trim());
         if (d > 9) {
-          d = d * 0.17078801;
+          d = d / 18.28;
         }
         if (d < 4.5) return Math.max(d, 4.5);
         else return Math.min(d, 9.5);
