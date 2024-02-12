@@ -62,7 +62,7 @@ public class PredictionService {
           d = d * 0.17078801;
         }
         if (d < 4.5) return Math.max(d, 4.5);
-        else return Math.min(d, 11.5);
+        else return Math.min(d, 9.5);
       } else {
         log.error("Error executing Python script");
       }
