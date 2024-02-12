@@ -48,6 +48,8 @@ public class DeviceDataListener {
         weather.getCurrentConditions().getUvindex(),
         weather.getCurrentConditions().getHumidity());
 
+    deviceMessage.setTemperature(weather.getCurrentConditions().getTemp()-0.5 - Math.random() / 10);
+
     if (prediction == null) {
       log.error("Prediction failed for device id: {}", device.getId());
       return;
