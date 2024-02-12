@@ -57,7 +57,10 @@ public class PredictionService {
       int exitCode = process.waitFor();
 
       if (exitCode == 0) {
-        return Double.parseDouble(result.toString().trim());
+        var d = Double.parseDouble(result.toString().trim());
+        if (d > 9) {
+          return 9.0;
+        } else return Math.max(d, 4.5);
       } else {
         log.error("Error executing Python script");
       }
